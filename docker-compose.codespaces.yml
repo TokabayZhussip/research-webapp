@@ -1,0 +1,19 @@
+# Дополнение только для GitHub Codespaces: там контейнеры не видят друг друга
+# по внутренней сети Docker, поэтому все сервисы работают в сети хоста.
+# Запуск: docker compose -f docker-compose.yml -f docker-compose.codespaces.yml up -d --build
+services:
+  db:
+    network_mode: host
+    ports: !reset []
+
+  backend:
+    network_mode: host
+    ports: !reset []
+    environment:
+      DATABASE_URL: postgresql+psycopg://${POSTGRES_USER}:${POSTGRES_PASSWORD}@localhost:5432/${POSTGRES_DB}
+
+  frontend:
+    network_mode: host
+    ports: !reset []
+    environment:
+      API_URL: http://localhost:8000

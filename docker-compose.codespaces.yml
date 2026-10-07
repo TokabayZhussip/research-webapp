@@ -1,0 +1,18 @@
+# Только для GitHub Codespaces: сеть bridge между контейнерами там не работает,
+# поэтому сервисы используют сеть хоста и обращаются друг к другу через localhost.
+services:
+  db:
+    network_mode: host
+    ports: !reset []
+
+  backend:
+    network_mode: host
+    ports: !reset []
+    environment:
+      DATABASE_URL: postgresql+psycopg://${POSTGRES_USER}:${POSTGRES_PASSWORD}@localhost:5432/${POSTGRES_DB}
+
+  frontend:
+    network_mode: host
+    ports: !reset []
+    environment:
+      API_URL: http://localhost:8000
